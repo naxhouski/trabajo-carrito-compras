@@ -1,5 +1,11 @@
+import json
+import os
+import requests
+
+carrito={}
+
 def catalogo():
-    productos = {
+    return {
         # Frutas y Verduras
         "manzana": {"precio": 1200, "seccion": "Frutas y Verduras", "stock": 50},
         "platano": {"precio": 1500, "seccion": "Frutas y Verduras", "stock": 40},
@@ -30,8 +36,61 @@ def catalogo():
         "jugo_naranja": {"precio": 1200, "seccion": "Bebidas", "stock": 40},
         "papas_fritas": {"precio": 1600, "seccion": "Snacks", "stock": 50}
     }
-    
-    return productos
 
-def pedido_usuario():
-    ingresos_usuario=[]
+def agregar_al_carrito(producto, cantidad):
+    if producto in carrito:
+        carrito[producto] +=cantidad
+    else:
+        carrito[producto] = cantidad
+    return True
+
+def info_carrito():
+    return carrito
+
+def vaciar_carrito():
+    carrito.clear()
+    return True
+
+def calc_total(codigo_descuento=""):
+    productos_supermercado = catalogo()
+    subtotal =0
+
+    for prod, cant in carrito.items():
+        precio_unidad = productos_supermercado[prod]["precio"]
+        subtotal += precio_unidad * cant
+
+    descuento = 0
+    if codigo_descuento.upper().strip() =="elprofeesbuenaonda":
+        descuento =int(subtotal * 0.10)
+
+    total = subtotal - descuento
+    return subtotal, descuento, total
+
+def guardar_carrito():
+    try:
+        with open("carrito_guardado.json","w", enconding="utf-8") as archivo:
+            json.dump(carrito, archivo, indent=4)
+        return True
+    except:
+        return False
+    
+def cargar_carrito():
+    global carrito
+    if os.path.exists("carrito_guardado.json"):
+        try:
+            with open("carrito_guardado.json", "r", encoding="utf-8") as archivo:
+                carrito = json.load(archivo)
+            return True
+        except:
+            return False
+    return False
+def obtener_valor_dolar():
+    try:
+        url ="https://mindicador.cl/api/dolar"
+        respuesta = requests.get(url, timeout=5)
+        if respuesta.status_code == 200:
+            datos = respuesta.json()
+            return datos["serie"][0]["valor"]
+        return None
+    except:
+        return None
