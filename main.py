@@ -1,11 +1,15 @@
 from gestion import catalogo,pedido_usuario
 
 def menu():
-    print("\n==MENU DEL SUPERMERCADO===")
-    print("1)catalago".upper())
-    print("2)inrgesar el producto que desea".upper())
-    print("3)carrito de compras".upper())
-    print("4)salir del supermercado\n")
+    print("\n===========================================")
+    print("      SISTEMA DE CARRITO DE COMPRAS        ")
+    print("===========================================")
+    print("1) VER CATALOGO DE PRODUCTOS")
+    print("2) AGREGAR PRODUCTO AL CARRITO")
+    print("3) VER RESUMEN DEL CARRITO Y TOTAL")
+    print("4) VACIAR EL CARRITO DE COMPRAS")
+    print("5) SALIR DEL SISTEMA")
+    print("===========================================")
     
 while True:
     menu()
@@ -24,3 +28,6 @@ while True:
     elif op==4:
         print("Gracias por su visita, Vuelva pronto ;)")
         break
+
+
+#fin del progrmaa
