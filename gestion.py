@@ -60,25 +60,34 @@ def calc_total(codigo_descuento=""):
         subtotal += precio_unidad * cant
 
     descuento = 0
-    if codigo_descuento.upper().strip() =="elprofeesbuenaonda":
+    if codigo_descuento.lower().strip() =="elprofeesbuenaonda":
         descuento =int(subtotal * 0.10)
 
     total = subtotal - descuento
     return subtotal, descuento, total
 
+
+def obtener_ruta_json():
+    carpeta_actual = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(carpeta_actual, "carrito_guardado.json")
+
+
 def guardar_carrito():
     try:
-        with open("carrito_guardado.json","w", enconding="utf-8") as archivo:
+        ruta = obtener_ruta_json()
+        with open(ruta,"w", encoding="utf-8") as archivo:
             json.dump(carrito, archivo, indent=4)
         return True
     except:
         return False
     
+    
 def cargar_carrito():
     global carrito
-    if os.path.exists("carrito_guardado.json"):
+    ruta = obtener_ruta_json()
+    if os.path.exists(ruta):
         try:
-            with open("carrito_guardado.json", "r", encoding="utf-8") as archivo:
+            with open(ruta, "r", encoding="utf-8") as archivo:
                 carrito = json.load(archivo)
             return True
         except:

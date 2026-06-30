@@ -70,14 +70,21 @@ while True:
                 print(f" {prod.replace('_', ' ').capitalize():<18} x{cant:<3} | suntotal: ${sub_item}")
 
             print("----------------------------------------------------------")
-            cupon = input("¿tiene algun codigo de descuento? (Enter si no):").strip()
+            cupon = input("¿tiene algun codigo de descuento? (Presione enter si no tiene):").strip()
 
             sub, desc, tot =calc_total(cupon)
 
-            print(f"subtotal:          ${sub} CLP")
+            
             if desc > 0:
-                print(f"Descuento (10%): -${desc} CLP")
-            print(f"TOTAL A PAGAR:     ${tot} CLP")
+                print(f"¡CUPON VALIDO! -> Tienes un 10% de descuento")
+                print(f"dinero a descontar -${desc} CLP")
+                print(f"PRECIO NORMAL   ${sub} CLP")
+                print(F"PRECIO CON DESCUENTO:  ${tot} CLP")
+            else:
+                if cupon !="":
+                    print("[AVISO] Código invalido, se aplico precio normal sin descuento")
+                    print(f"TOTAL A PAGAR:      ${tot} CLP")
+                    
             print("-----------------------------------------------------------")
             
 
@@ -92,11 +99,12 @@ while True:
         print("===========================================")
     elif op==4:
       vaciar_carrito()
+      guardar_carrito()
       print("\n[INFO] Se ha vaciado el carrito. todos los articulos fueron borrados.")
     
     elif op==5:
         print("\n Guardando los datos de la sesion...")
-        if guardar_carrito:
+        if guardar_carrito():
             print("[INFO] El respaldo del carrito se ha guardado con exito")
         else:
             print("\n[ADVERTENCIA] NO SE PUDO GUARDAR TU CARRITO")
